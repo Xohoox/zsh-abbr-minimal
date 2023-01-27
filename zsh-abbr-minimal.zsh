@@ -21,13 +21,29 @@ abbr_expand() {
 
 }
 
+# expand and run command
+abbr_enter() {
+	abbr_expand
+	zle accept-line
+}
+
 # appand space to LBUFFER
 abbr_space() {
 	LBUFFER="$LBUFFER "
 }
 
+# todo: fix keybinding
+# run command without expanding
+# abbr_enter_do_nothing() {
+# 	zle accept-line
+# }
+
 zle -N abbr_expand
 zle -N abbr_space
+zle -N abbr_enter
+# zle -N abbr_enter_do_nothing
 
 bindkey ' ' abbr_expand
 bindkey '^ ' abbr_space
+bindkey '^M' abbr_enter
+# bindkey '^[M' abbr_enter_do_nothing
