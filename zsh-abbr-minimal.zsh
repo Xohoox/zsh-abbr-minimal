@@ -13,10 +13,12 @@ abbr_expand() {
 	if [ "$word_count" = 1 ]; then
 		LBUFFER="$match "
 	elif [ -n "$secondLastWord" ]; then
-		# todo: ( - is in same word
-		[ "${secondLastWord%[|&;]}" ] && return
+		# todo: $( - is in same word
+		[[ "$secondLastWord" =~ '[|&;]' ]] || { abbr_space; return }
 		words[-1]="$match"
 		LBUFFER="$words "
+	else
+		abbr_space
 	fi
 
 }
