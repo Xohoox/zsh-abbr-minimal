@@ -4,11 +4,11 @@ _abbrFile="$XDG_DATA_HOME/zsh/abbr"
 abbr_expand() {
 	local words=(${(z)LBUFFER})
 	local lastWord=$words[-1]
+	local match=$(grep "^${lastWord}=" "$_abbrFile" | cut -f 2- -d '=')
+	[ -n "$match" ] || { abbr_space; return }
+
 	local secondLastWord=${words[-2]}
 	local -i word_count=${#words}
-	local match=$(grep "^$lastWord=" "$_abbrFile" | cut -f 2- -d '=')
-
-	[ -n "$match" ] || { abbr_space; return }
 
 	if [ "$word_count" = 1 ]; then
 		LBUFFER="$match "
@@ -20,7 +20,6 @@ abbr_expand() {
 	else
 		abbr_space
 	fi
-
 }
 
 # expand and run command
