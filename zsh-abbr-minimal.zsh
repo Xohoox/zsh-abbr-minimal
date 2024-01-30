@@ -6,6 +6,9 @@ abbr_expand() {
 	local lastWord=$words[-1]
 	local secondLastWord=${words[-2]}
 	local -i word_count=${#words}
+
+	[[ "$lastWord" =~ '\[' ]] && return
+	
 	local match=$(grep "^$lastWord=" "$_abbrFile" | cut -f 2- -d '=')
 
 	[ -n "$match" ] || return
